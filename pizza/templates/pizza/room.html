@@ -1,14 +1,33 @@
-<!-- chat/templates/chat/room.html -->
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'pizza/style.css' %}">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+
     <title>Chat Room</title>
 </head>
+
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-    <input id="chat-message-input" type="text" size="100"/><br/>
-    <input id="chat-message-submit" type="button" value="Send"/>
+
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <textarea id="chat-log" class="form-control" cols="100" rows="20" margin-top: 1%;></textarea><br/>
+                <input id="chat-message-input" class="form-control" type="text" size="100"/><br/>
+                <input id="chat-message-submit"  class="btn btn-primary" type="button" value="Send" disabled="disabled" />
+            </div>
+        </form>
+
+    </div>
+
 </body>
 <script>
     var roomName = {{ room_name_json }};
@@ -27,10 +46,11 @@
         var data = JSON.parse(e.data);
         var botMessage = data['bot_message'];
         var userMessage = data['user_message'];
-        console.log(userMessage);
+
         if (userMessage) {
             document.querySelector('#chat-log').value += (userMessage + "    (you)" + '\n');
-        } 
+        }
+
         setTimeout(() => document.querySelector('#chat-log').value += (botMessage + "    (bot)" + '\n'), 1000);
     };
 
@@ -40,6 +60,16 @@
 
     document.querySelector('#chat-message-input').focus();
     document.querySelector('#chat-message-input').onkeyup = function(e) {
+        var messageInputDom = document.querySelector('#chat-message-input');
+
+        var message = messageInputDom.value;
+        if (message == "") {
+            document.querySelector('#chat-message-submit').setAttribute('disabled', '');
+        }
+        else {
+            document.querySelector('#chat-message-submit').removeAttribute('disabled');
+        }
+        
         if (e.keyCode === 13) {  // enter, return
             document.querySelector('#chat-message-submit').click();
         }
@@ -49,10 +79,12 @@
         var messageInputDom = document.querySelector('#chat-message-input');
 
         var message = messageInputDom.value;
+
         chatSocket.send(JSON.stringify({
             'message': message
         }));
         messageInputDom.value = '';
+        document.querySelector('#chat-message-submit').setAttribute('disabled', 'disabled');
     };
 </script>
 </html>
