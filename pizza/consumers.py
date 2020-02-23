@@ -93,6 +93,14 @@ class ChatConsumer(WebsocketConsumer):
         }))
 
     def talk_to_bot(self, message):
+        '''
+        Flow for small talk with the bot.
+        Variables:
+            message: User's message to the bot.
+            self.bot_message: Contains bot's message.
+        Returns:
+            Boolean: if user's message or bot's message is not part of the small talk flow.
+        '''
         if message.lower() in BOT_MESSAGES.get("user-hello"):
             self.bot_message = random.choice(BOT_MESSAGES.get("bot-hello"))
         elif message.lower() in BOT_MESSAGES.get("user-whatsup"):
@@ -103,6 +111,15 @@ class ChatConsumer(WebsocketConsumer):
             return True
 
     def create_order(self):
+        '''
+        Creates a new order for user in the db.
+        Variables:
+            random_order_id: Generates a random 6 digits order id.
+            fetched_user_id: Contains user's id based on mobile number in the db.
+            order_object: Sets the order id in the db for Order model object.
+        Returns:
+            random_order_id: Random 6 digits order id to be shared with the user.
+        '''
         random_order_id = random.randint(10**(6-1),10**6-1)
         user_model_object = User.objects.get(phone=self.mobile)
         user_details = user_model_object.__dict__
@@ -112,6 +129,15 @@ class ChatConsumer(WebsocketConsumer):
         return random_order_id
     
     def fetch_order_status(self, message):
+        '''
+        Fetches the order status from DB based on the order ID shared by user.
+        Variables:
+            message: string order id given by user.
+            order_exists: checks in db if order exists.
+            time_passed_in_minutes: time passed in minutes since the order was placed.
+        Returns:
+            order_status: Status of the order.
+        '''
         order_exists = Order.objects.get(order_id=int(message))
         order_details = order_exists.__dict__
         order_status = order_details.get("order_status")

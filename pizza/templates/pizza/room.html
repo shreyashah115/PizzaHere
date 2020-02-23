@@ -22,33 +22,32 @@
 
         <div class="container py-5 px-4">
             <h3 class=" text-center">Welcome to Pizzociety</h3>
-                    <div class="bg-white" id="chatContainer">
+            <div class="bg-white" id="chatContainer">
 
-                        <div class="bg-gray px-4 py-2 bg-light">
-                            <p class="h5 mb-0 py-1">Fiona</p>
+                <div class="bg-gray px-4 py-2 bg-light">
+                    <p class="h5 mb-0 py-1">Fiona</p>
+                </div>
+
+                <div id="messageScreen"> </div>
+
+                <form onSubmit="return false;">
+                    <div class="form-group">
+                        <div class = "col-md-12">
+                            <input id="chat-message-input" placeholder="Type your message here."
+                            class="form-control" type="text" /><br />
                         </div>
 
-                        <div id="messageScreen"> </div>
-
-                        <form onSubmit="return false;">
-                            <div class="form-group">
-                                <div class = "col-md-12">
-                                    <input id="chat-message-input" placeholder="Type your message here."
-                                    class="form-control" type="text" /><br />
-                                </div>
-
-                                <input id="chat-message-submit" class="btn btn-primary" type="button" value="Send"
-                                    disabled="disabled" />
-                            </div>
-                        </form>
+                        <input id="chat-message-submit" class="btn btn-primary" type="button" value="Send"
+                            disabled="disabled" />
                     </div>
+                </form>
+            </div>
         </div>
     </body>
 
-
-
     <script>
 
+        // Connect to the Web Socket
         var chatSocket = new WebSocket(
             'ws://' + window.location.host + '/ws/pizza/chat/');
 
@@ -68,6 +67,7 @@
             var botMessage = data['bot_message'];
             var userMessage = data['user_message'];
 
+            // Push user's message to the chat area
             if (userMessage) {
                 $('#messageScreen').append(
                     '<div class="col-7 px-3 media w-50 ml-auto mb-3">'+
@@ -82,7 +82,7 @@
                 updateScroll();
 
             }
-
+            // Push bot's message to the chat area
             setTimeout(function() {
                 $('#messageScreen').append(
                     '<div class="col-7 px-3 bot-text">'+
@@ -106,6 +106,7 @@
         };
 
         document.querySelector('#chat-message-input').focus();
+
         document.querySelector('#chat-message-input').onkeyup = function (e) {
             var messageInputDom = document.querySelector('#chat-message-input');
 

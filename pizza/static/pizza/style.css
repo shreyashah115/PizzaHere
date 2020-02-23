@@ -1,51 +1,49 @@
-
 .container {
     font-family: 'Open Sans', sans-serif;
     max-width: 60% !important;
 }
+
 body {
-    /* background-color: #74EBD5; */
     background-image: url("pizza.jpg");
     background-repeat: no-repeat;
     background-size: 100%;
-  
-    /* min-height: 100vh; */
-  }
+}
 
-  ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 5px;
-  }
-  
-  ::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-track {
     width: 5px;
     background: #f5f5f5;
-  }
-  
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     width: 1em;
     background-color: #ddd;
     outline: 1px solid slategrey;
     border-radius: 1rem;
-  }
-  
-  .text-small {
+}
+
+.text-small {
     font-size: 0.9rem;
-  }
-  
-  .messages-box,
-  .chat-box {
+}
+
+.messages-box,
+.chat-box {
     height: 510px;
     overflow-y: scroll;
-  }
-  
-  .rounded-lg {
+}
+
+.rounded-lg {
     border-radius: 0.5rem;
-  }
-  
-  input::placeholder {
+}
+
+input::placeholder {
     font-size: 0.9rem;
     color: #999;
-  }
+}
+
 h3 {
     color: white !important;
     font-family: 'Open Sans', sans-serif;
@@ -60,11 +58,12 @@ label {
     margin-bottom: -1.5rem;
     margin-top: 1rem;
 }
+
 .text-center {
     margin-top: 1rem;
 }
 
-.form-control:disabled{
+.form-control:disabled {
     background-color: #fff !important;
 }
 
@@ -78,6 +77,7 @@ label {
     overflow-y: auto;
     padding-top: 10px;
 }
+
 .ml-auto {
     margin-right: 10px;
 }
