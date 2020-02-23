@@ -48,8 +48,14 @@
     <script>
 
         // Connect to the Web Socket
-        var chatSocket = new WebSocket(
-            'ws://' + window.location.host + '/ws/pizza/chat/');
+        if(window.location.protocol.includes('https')) {
+            var chatSocket = new WebSocket(
+                'wss://' + window.location.host + '/ws/pizza/chat/');
+        }
+        else {
+            var chatSocket = new WebSocket(
+                'ws://' + window.location.host + '/ws/pizza/chat/');
+        }
 
         chatSocket.onopen = function (e) {
             var data = JSON.parse(e.data);
@@ -127,7 +133,6 @@
             var messageInputDom = document.querySelector('#chat-message-input');
 
             var message = messageInputDom.value;
-            console.log(message);
 
             chatSocket.send(JSON.stringify({
                 'message': message

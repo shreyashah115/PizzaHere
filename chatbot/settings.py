@@ -25,7 +25,7 @@ SECRET_KEY = '-ef()^5dtvq4bx&rgx#lk-5+$n!c20lom4aawp142h3^b$)%b^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'channels',
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
