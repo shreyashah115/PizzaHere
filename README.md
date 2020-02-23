@@ -26,4 +26,4 @@ The bot will reply to your small talk questions at the beginning of the flow as 
 
 You can place a new pizza order or track the existing order as well, after providing your mobile number.
 
-[Link to chatbot video](https://imgur.com/yYKlwzw)
+![Link to chatbot video](https://i.imgur.com/gfHtysT.gif)
