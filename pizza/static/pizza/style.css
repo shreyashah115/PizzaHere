@@ -1,14 +1,17 @@
 
 .container {
     font-family: 'Open Sans', sans-serif;
+    max-width: 60% !important;
 }
 body {
-    background-color: #74EBD5;
-    background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+    /* background-color: #74EBD5; */
+    background-image: url("pizza.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
   
-    min-height: 100vh;
+    /* min-height: 100vh; */
   }
-  
+
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -43,12 +46,14 @@ body {
     font-size: 0.9rem;
     color: #999;
   }
-title {
+h3 {
+    color: white !important;
     font-family: 'Open Sans', sans-serif;
 }
 
-.form-control {
-    margin-top: 2%;
+.btn-primary {
+    margin-bottom: 3%;
+    margin-left: 90%;
 }
 
 label {
@@ -64,9 +69,15 @@ label {
 }
 
 #messageScreen {
+    font-family: 'Open Sans', sans-serif;
+    padding-left: 5px;
+    padding-right: 5px;
     height: 400px !important;
     min-height: 400px !important;
     max-height: 400px !important;
     overflow-y: auto;
-    padding-top: 5px;
+    padding-top: 10px;
+}
+.ml-auto {
+    margin-right: 10px;
 }

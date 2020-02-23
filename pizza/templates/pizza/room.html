@@ -21,62 +21,36 @@
     <body>
 
         <div class="container py-5 px-4">
-            <h3 class=" text-center">Chat Help</h3>
-            <!-- <div class="row rounded-lg overflow-hidden shadow"> -->
-                <!-- Users box-->
-                <!-- <div class="col-5 px-0"> -->
+            <h3 class=" text-center">Welcome to Pizzociety</h3>
                     <div class="bg-white" id="chatContainer">
 
                         <div class="bg-gray px-4 py-2 bg-light">
-                            <p class="h5 mb-0 py-1">Pizzociety</p>
+                            <p class="h5 mb-0 py-1">Fiona</p>
                         </div>
 
                         <div id="messageScreen"> </div>
 
                         <form onSubmit="return false;">
                             <div class="form-group">
-                                <!-- <textarea disabled id="chat-log" class="form-control" cols="100" rows="20" ></textarea><br/> -->
-                                <input id="chat-message-input" placeholder="Type your message here."
-                                    class="form-control" type="text" size="100" /><br />
+                                <div class = "col-md-12">
+                                    <input id="chat-message-input" placeholder="Type your message here."
+                                    class="form-control" type="text" /><br />
+                                </div>
+
                                 <input id="chat-message-submit" class="btn btn-primary" type="button" value="Send"
                                     disabled="disabled" />
                             </div>
                         </form>
                     </div>
-                <!-- </div> -->
-            <!-- </div> -->
-
-
-
-
-
         </div>
-
     </body>
-
-<!-- <div class="col-7 px-0 hide hide" id="botMessage">
-    <div class="px-4 py-5 chat-box bg-white">
-        <div class="media w-50 mb-3"><img
-                src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg"
-                alt="user" width="50" class="rounded-circle">
-            <div class="media-body ml-3">
-                <div class="bg-light rounded py-2 px-3 mb-2">
-                    <p class="text-small mb-0 text-muted"></p>
-                </div>
-                <p class="small text-muted">Bot</p>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 
 
     <script>
-        var roomName = {{room_name_json}};
 
         var chatSocket = new WebSocket(
-            'ws://' + window.location.host +
-            '/ws/pizza/' + roomName + '/');
+            'ws://' + window.location.host + '/ws/pizza/chat/');
 
         chatSocket.onopen = function (e) {
             var data = JSON.parse(e.data);
@@ -95,13 +69,11 @@
             var userMessage = data['user_message'];
 
             if (userMessage) {
-                //document.querySelector('#chat-log').value += (userMessage + "    (you)" + '\n');
-
                 $('#messageScreen').append(
-                    '<div class="media w-50 ml-auto mb-3">'+
+                    '<div class="col-7 px-3 media w-50 ml-auto mb-3">'+
                         '<div class="media-body">'+
                             '<div class="bg-primary rounded py-2 px-3 mb-2">'+
-                                '<p class="text-small mb-0 text-white">' + userMessage + '</p>'+
+                                '<p class="text-small text-white">' + userMessage + '</p>'+
                             '</div>'+
                             '<p class="small text-muted">You</p>'+
                         '</div>'+
@@ -112,12 +84,10 @@
             }
 
             setTimeout(function() {
-                //document.querySelector('#chat-log').value += (botMessage + "    (bot)" + '\n');
                 $('#messageScreen').append(
-                    '<div class="col-7 px-0">'+
-                        //'<div class="px-4 py-5 chat-box bg-white">'+
-                            '<div class="media w-50 mb-3">'+
-                                '<img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">'+
+                    '<div class="col-7 px-3 bot-text">'+
+                            '<div class="media w-70 mb-3">'+
+                                '<img src="https://i.pinimg.com/originals/b8/e6/e6/b8e6e60159292fda4d18fa17e96c5472.png" alt="user" width="50" class="rounded-circle">'+
                                 '<div class="media-body ml-3">'+
                                     '<div class="bg-light rounded py-2 px-3 mb-2">'+
                                         '<p class="text-small mb-0 text-muted"> '+ botMessage+' </p>'+
@@ -125,12 +95,9 @@
                                     '<p class="small text-muted">Bot</p>'+
                                 '</div>'+
                             '</div>'+
-                        //'</div>'+
                     '</div>'
                 );
                 updateScroll();
-
-
             }, 1000);
         };
 
@@ -148,7 +115,7 @@
             } else {
                 document.querySelector('#chat-message-submit').removeAttribute('disabled');
             }
-            if (e.keyCode === 13) { // enter, return
+            if (e.keyCode === 13) {
                 e.preventDefault();
                 document.querySelector('#chat-message-submit').click();
             }
