@@ -22,4 +22,4 @@
 How the chatbot works:
 
 The bot will reply to your small talk questions at the beginning of the flow as shown below,
-![Small talk](https://i.imgur.com/KlGRZ4h.png)
+![Small talk](https://i.imgur.com/nHA1Y29.png)
