@@ -1,5 +1,5 @@
 BOT_MESSAGES = {
-    "mobile": "Hi, welcome to Pizzociety, please share your 10 digit mobile number.",
+    "mobile": "Hi, welcome to YoYo Pizza! Please share your 10 digit mobile number.",
     "ask_mobile": "Please share your 10 digit mobile number.",
     "incorrect_mobile": "Oops, that looks like an invalid mobile number. Please enter a valid 10 digit number.",
     "first_question": "How can I help you?<br>1. Order a pizza<br>2. Track my order",

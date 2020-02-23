@@ -12,7 +12,7 @@ order_statuses = {1: "being prepared", 2: "being packed", 3: "out for delivery",
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
-        self.bot_message = "Hi, welcome to Pizzociety, please share your 10 digit mobile number."
+        self.bot_message = "Hi, welcome to YoYo Pizza! Please share your 10 digit mobile number."
         self.send(text_data=json.dumps({
             'bot_message': self.bot_message
         }))
