@@ -12,8 +12,15 @@ body {
 ::-webkit-scrollbar {
     width: 5px;
 }
+
+.wrapper {
+    text-align: center;
+}
+
 .new-button {
-    margin: -60%;
+    margin-bottom: 25px;
+    margin-top: -5px;
+
 }
 
 
@@ -53,7 +60,7 @@ h3 {
     font-family: 'Open Sans', sans-serif;
 }
 
-.btn-primary {
+.btn-submit {
     margin-bottom: 3%;
     margin-left: 90%;
 }

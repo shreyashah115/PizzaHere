@@ -37,11 +37,13 @@
                             class="form-control" type="text" /><br />
                         </div>
 
-                        <input id="chat-message-submit" class="btn btn-primary" type="button" value="Send"
+                        <input id="chat-message-submit" class="btn btn-primary btn-submit" type="button" value="Send"
                             disabled="disabled" />
+                        <div class="wrapper">
+                            <input id="chat-message-new" class="btn btn-primary new-button" type="button" value="New conversation"
+                            onClick="window.location.reload();" hidden="hidden"/>
+                        </div>
 
-                        <input id="chat-message-new" class="btn btn-primary new-button" type="button" value="New conversation"
-                  hidden="hidden"/>
                     </div>
                 </form>
             </div>
@@ -79,7 +81,7 @@
                 if (botMessage.toLowerCase().includes("bye")) {
                     $("#chat-message-input").hide();
                     $("#chat-message-submit").hide();
-                    $(".new-button").show();
+                    $(".new-button").removeAttr('hidden');
                 }
             }, 2000);
 
