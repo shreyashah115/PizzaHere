@@ -12,6 +12,10 @@ body {
 ::-webkit-scrollbar {
     width: 5px;
 }
+.new-button {
+    margin: -60%;
+}
+
 
 ::-webkit-scrollbar-track {
     width: 5px;

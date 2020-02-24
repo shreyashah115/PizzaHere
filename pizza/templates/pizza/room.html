@@ -39,6 +39,9 @@
 
                         <input id="chat-message-submit" class="btn btn-primary" type="button" value="Send"
                             disabled="disabled" />
+
+                        <input id="chat-message-new" class="btn btn-primary new-button" type="button" value="New conversation"
+                  hidden="hidden"/>
                     </div>
                 </form>
             </div>
@@ -48,7 +51,7 @@
     <script>
 
         // Connect to the Web Socket
-        if(window.location.protocol.includes('https')) {
+        if (window.location.protocol.includes('https')) {
             var chatSocket = new WebSocket(
                 'wss://' + window.location.host + '/ws/pizza/chat/');
         }
@@ -60,7 +63,7 @@
         chatSocket.onopen = function (e) {
             var data = JSON.parse(e.data);
             var botMessage = data['bot_message'];
-            document.querySelector('#chat-log').value += (botMessage + "    (bot)" + '\n')
+            // document.querySelector('#chat-log').value += (botMessage + "    (bot)" + '\n')
         }
 
         function updateScroll() {
@@ -72,6 +75,13 @@
             var data = JSON.parse(e.data);
             var botMessage = data['bot_message'];
             var userMessage = data['user_message'];
+            setTimeout(function() {
+                if (botMessage.toLowerCase().includes("bye")) {
+                    $("#chat-message-input").hide();
+                    $("#chat-message-submit").hide();
+                    $(".new-button").show();
+                }
+            }, 2000);
 
             // Push user's message to the chat area
             if (userMessage) {

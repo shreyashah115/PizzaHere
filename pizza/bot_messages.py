@@ -14,6 +14,8 @@ BOT_MESSAGES = {
     "bot-whatsup": ["Not much. What's new with you?", "Living the dream."],
     "user-hello": ["hey", "hi", "hello", "heya", "hey there"],
     "bot-hello": ["Hi there, friend!", "Howdy", "Good day!"],
+    "user-bye": ["ok bye", "bye", "bye-bye"],
+    "bot-bye": ["Thanks for talking, bye.", "Bye!", "Bye, have a nice day!"],
     "user-greeting": ["how have you been", "how are you?", "how's life", "how was your day?", "how are you doing"],
     "bot-greeting": ["Lovely, thanks.", "Wonderful as always. Thanks for asking.", "Can't complain at all."],
     "invalid_order": "Sorry, no orders exist with the ID you provided. What would you like to do?<br>1. Order a pizza<br>2. Track my order",

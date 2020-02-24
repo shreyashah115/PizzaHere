@@ -103,6 +103,8 @@ class ChatConsumer(WebsocketConsumer):
         '''
         if message.lower() in BOT_MESSAGES.get("user-hello"):
             self.bot_message = random.choice(BOT_MESSAGES.get("bot-hello"))
+        elif message.lower() in BOT_MESSAGES.get("user-bye"):
+            self.bot_message = random.choice(BOT_MESSAGES.get("bot-bye"))
         elif message.lower() in BOT_MESSAGES.get("user-whatsup"):
             self.bot_message = random.choice(BOT_MESSAGES.get("bot-whatsup"))
         elif message.lower() in BOT_MESSAGES.get("user-greeting"):
