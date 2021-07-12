@@ -1,157 +1,196 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'pizza/style.css' %}"
+    />
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+      integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+      crossorigin="anonymous"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+      type="text/css"
+      rel="stylesheet"
+    />
 
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" type="text/css" href="{% static 'pizza/style.css' %}">
-        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-            integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
-            rel="stylesheet">
+    <title>Chat Room</title>
+  </head>
 
-        <title>Chat Room</title>
-    </head>
-
-    <body>
-
-        <div class="container py-5 px-4">
-            <h3 class=" text-center">Welcome to YoYo Pizza!</h3>
-            <div class="bg-white" id="chatContainer">
-
-                <div class="bg-gray px-4 py-2 bg-light">
-                    <p class="h5 mb-0 py-1">Fiona</p>
-                </div>
-
-                <div id="messageScreen"> </div>
-
-                <form onSubmit="return false;">
-                    <div class="form-group">
-                        <div class = "col-md-12">
-                            <input id="chat-message-input" placeholder="Type your message here."
-                            class="form-control" type="text" /><br />
-                        </div>
-
-                        <input id="chat-message-submit" class="btn btn-primary btn-submit" type="button" value="Send"
-                            disabled="disabled" />
-                        <div class="wrapper">
-                            <input id="chat-message-new" class="btn btn-primary new-button" type="button" value="New conversation"
-                            onClick="window.location.reload();" hidden="hidden"/>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
+  <body>
+    <div class="container py-5 px-4">
+      <h3 class="text-center">Welcome to YoYo Pizza!</h3>
+      <div class="bg-white" id="chatContainer">
+        <div class="bg-gray px-4 py-2 bg-light">
+          <p class="h5 mb-0 py-1">Fiona</p>
         </div>
-    </body>
 
-    <script>
+        <div id="messageScreen"></div>
 
-        // Connect to the Web Socket
-        if (window.location.protocol.includes('https')) {
-            var chatSocket = new WebSocket(
-                'wss://' + window.location.host + '/ws/pizza/chat/');
+        <form onSubmit="return false;">
+          <div class="form-group">
+            <div class="col-md-12">
+              <input
+                id="chat-message-input"
+                placeholder="Type your message here."
+                class="form-control"
+                type="text"
+              /><br />
+            </div>
+
+            <input
+              id="chat-message-submit"
+              class="btn btn-primary btn-submit"
+              type="button"
+              value="Send"
+              disabled="disabled"
+            />
+            <div class="wrapper">
+              <input
+                id="chat-message-new"
+                class="btn btn-primary new-button"
+                type="button"
+                value="New conversation"
+                onClick="window.location.reload();"
+                hidden="hidden"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    // Connect to the Web Socket
+    if (window.location.protocol.includes("https")) {
+      var chatSocket = new WebSocket(
+        "wss://" + window.location.host + "/ws/pizza/chat/"
+      );
+    } else {
+      var chatSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/pizza/chat/"
+      );
+    }
+
+    chatSocket.onopen = function (e) {
+      console.log("here");
+      var data = JSON.parse(e.data);
+      var botMessage = data["bot_message"];
+      // document.querySelector('#chat-log').value += (botMessage + "    (bot)" + '\n')
+    };
+
+    function updateScroll() {
+      var element = $("#messageScreen");
+      element[0].scrollTop = element[0].scrollHeight;
+    }
+
+    chatSocket.onmessage = function (e) {
+      var data = JSON.parse(e.data);
+      var botMessage = data["bot_message"];
+      var userMessage = data["user_message"];
+      setTimeout(function () {
+        if (botMessage.toLowerCase().includes("bye")) {
+          $("#chat-message-input").hide();
+          $("#chat-message-submit").hide();
+          $(".new-button").removeAttr("hidden");
         }
-        else {
-            var chatSocket = new WebSocket(
-                'ws://' + window.location.host + '/ws/pizza/chat/');
-        }
+      }, 2000);
 
-        chatSocket.onopen = function (e) {
-            var data = JSON.parse(e.data);
-            var botMessage = data['bot_message'];
-            // document.querySelector('#chat-log').value += (botMessage + "    (bot)" + '\n')
-        }
+      // Push user's message to the chat area
+      if (userMessage) {
+        $("#messageScreen").append(
+          '<div class="col-7 px-3 media w-50 ml-auto mb-3">' +
+            '<div class="media-body">' +
+            '<div class="bg-primary rounded py-2 px-3 mb-2">' +
+            '<p class="text-small text-white">' +
+            userMessage +
+            "</p>" +
+            "</div>" +
+            '<p class="small text-muted">You</p>' +
+            "</div>" +
+            "</div>"
+        );
+        updateScroll();
+      }
+      // Push bot's message to the chat area
+      setTimeout(function () {
+        $("#messageScreen").append(
+          '<div class="col-7 px-3 bot-text">' +
+            '<div class="media w-70 mb-3">' +
+            '<img src="https://i.pinimg.com/originals/b8/e6/e6/b8e6e60159292fda4d18fa17e96c5472.png" alt="user" width="50" class="rounded-circle">' +
+            '<div class="media-body ml-3">' +
+            '<div class="bg-light rounded py-2 px-3 mb-2">' +
+            '<p class="text-small mb-0 text-muted"> ' +
+            botMessage +
+            " </p>" +
+            "</div>" +
+            '<p class="small text-muted">Bot</p>' +
+            "</div>" +
+            "</div>" +
+            "</div>"
+        );
+        updateScroll();
+      }, 1000);
+    };
 
-        function updateScroll() {
-            var element = $('#messageScreen');
-            element[0].scrollTop = element[0].scrollHeight;
-        }
+    chatSocket.onclose = function (e) {
+      console.error("Chat socket closed unexpectedly");
+    };
 
-        chatSocket.onmessage = function (e) {
-            var data = JSON.parse(e.data);
-            var botMessage = data['bot_message'];
-            var userMessage = data['user_message'];
-            setTimeout(function() {
-                if (botMessage.toLowerCase().includes("bye")) {
-                    $("#chat-message-input").hide();
-                    $("#chat-message-submit").hide();
-                    $(".new-button").removeAttr('hidden');
-                }
-            }, 2000);
+    document.querySelector("#chat-message-input").focus();
 
-            // Push user's message to the chat area
-            if (userMessage) {
-                $('#messageScreen').append(
-                    '<div class="col-7 px-3 media w-50 ml-auto mb-3">'+
-                        '<div class="media-body">'+
-                            '<div class="bg-primary rounded py-2 px-3 mb-2">'+
-                                '<p class="text-small text-white">' + userMessage + '</p>'+
-                            '</div>'+
-                            '<p class="small text-muted">You</p>'+
-                        '</div>'+
-                    '</div>'
-                );
-                updateScroll();
+    document.querySelector("#chat-message-input").onkeyup = function (e) {
+      var messageInputDom = document.querySelector("#chat-message-input");
 
-            }
-            // Push bot's message to the chat area
-            setTimeout(function() {
-                $('#messageScreen').append(
-                    '<div class="col-7 px-3 bot-text">'+
-                            '<div class="media w-70 mb-3">'+
-                                '<img src="https://i.pinimg.com/originals/b8/e6/e6/b8e6e60159292fda4d18fa17e96c5472.png" alt="user" width="50" class="rounded-circle">'+
-                                '<div class="media-body ml-3">'+
-                                    '<div class="bg-light rounded py-2 px-3 mb-2">'+
-                                        '<p class="text-small mb-0 text-muted"> '+ botMessage+' </p>'+
-                                    '</div>'+
-                                    '<p class="small text-muted">Bot</p>'+
-                                '</div>'+
-                            '</div>'+
-                    '</div>'
-                );
-                updateScroll();
-            }, 1000);
-        };
+      var message = messageInputDom.value;
+      if (message == "") {
+        document
+          .querySelector("#chat-message-submit")
+          .setAttribute("disabled", "");
+      } else {
+        document
+          .querySelector("#chat-message-submit")
+          .removeAttribute("disabled");
+      }
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        document.querySelector("#chat-message-submit").click();
+      }
+    };
 
-        chatSocket.onclose = function (e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+    document.querySelector("#chat-message-submit").onclick = function (e) {
+      e.preventDefault();
+      var messageInputDom = document.querySelector("#chat-message-input");
 
-        document.querySelector('#chat-message-input').focus();
+      var message = messageInputDom.value;
 
-        document.querySelector('#chat-message-input').onkeyup = function (e) {
-            var messageInputDom = document.querySelector('#chat-message-input');
-
-            var message = messageInputDom.value;
-            if (message == "") {
-                document.querySelector('#chat-message-submit').setAttribute('disabled', '');
-            } else {
-                document.querySelector('#chat-message-submit').removeAttribute('disabled');
-            }
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function (e) {
-            e.preventDefault();
-            var messageInputDom = document.querySelector('#chat-message-input');
-
-            var message = messageInputDom.value;
-
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-            document.querySelector('#chat-message-submit').setAttribute('disabled', 'disabled');
-        };
-    </script>
-
+      chatSocket.send(
+        JSON.stringify({
+          message: message,
+        })
+      );
+      messageInputDom.value = "";
+      document
+        .querySelector("#chat-message-submit")
+        .setAttribute("disabled", "disabled");
+    };
+  </script>
 </html>
